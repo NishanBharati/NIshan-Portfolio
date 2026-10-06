@@ -1,6 +1,8 @@
 # SEO / GEO / AEO Audit: nishanbharati portfolio
 
-_Phase 1 (read-only audit) · 2026-10-06 · Status: **awaiting approval before any code changes**_
+_Phase 1 audit · 2026-10-06 · **Phases 2–3 implemented and verified the same day.** See [§8 Results](#8-phase-23-results-2026-10-06) for what changed, the before/after measurements and the remaining risks._
+
+Decisions confirmed by Nishan (2026-10-06): company **Navya EdTech**, title **Full Stack Developer**, location **Kathmandu, Nepal**, no X/YouTube profiles, **allow** AI training crawlers. Rendering Option A approved.
 
 ## 1. Stack and environment
 
@@ -134,4 +136,112 @@ For a personal-brand site whose goal is to be **known and cited**, allowing the 
 - **Blog posts** have dates and reading time, but no visible author byline on the article page (not verified in the template yet; I'll check when implementing BlogPosting).
 
 ## 7. Change log
-- Phase 1: no code changes. This file was added.
+- Phase 1 (`21bd0a6`): no code changes. This file was added.
+- Phase 2 (`a20e419`): implementation (§8).
+- Phase 3: `npm run seo:check`, CI workflow, verification and this update.
+- Phase 4: `SEO-OFFSITE-CHECKLIST.md`.
+
+## 8. Phase 2–3 results (2026-10-06)
+
+### 8.1 What a bot sees now (no JavaScript)
+
+Requested from the production-like server (`npm run preview`), raw HTML only:
+
+| URL | Status | `<title>` | H1 | JSON-LD types | Words of body text |
+|---|---|---|---|---|---|
+| `/` | 200 | Nishan Bharati \| Full Stack Developer in Kathmandu, Nepal | Hi, i'm nishan Bharati, Full Stack Developer and Co-Founder of Navya EdTech in Kathmandu, Nepal | Person, Organization, WebSite, ProfilePage, FAQPage, ItemList/CreativeWork | **1,682** (was 0) |
+| `/blog` | 200 | Blog by Nishan Bharati \| Full Stack Development Insights | Blog | Blog, BlogPosting ×3, BreadcrumbList, Person, Organization, WebSite | 252 (was 0) |
+| `/blog/is-seo-dead-…` | 200 | Is SEO Dead? How AI Search Is Changing Marketing | (post title) | BlogPosting, BreadcrumbList, Blog, Person, Organization, WebSite | 719 (was 0) |
+| `/does-not-exist` | **404** (was 200) | Page Not Found \| Nishan Bharati (`noindex`) | Page not found | none | n/a |
+| `/blog/` | 308 → `/blog` | | | | |
+| `/blog/<new-unbuilt-slug>` | 200, SPA shell (client-rendered until the next build) | generic | | | |
+
+Every page has a unique description, a self-referencing absolute canonical, Open Graph and Twitter tags with an absolute 1200×630 image, and `lang="en"`. Social previews now show each article's own title, description and image.
+
+### 8.2 Lighthouse before vs. after
+
+Lighthouse 12, headless Chrome, **real DevTools throttling** (`--throttling-method=devtools`), local server with gzip. **Median of 3 runs.** Before = baseline commit `4ac1769` served with `vite preview`; after = this branch served with `npm run preview`.
+
+| Page / device | Perf | A11y | BP | SEO | LCP | FCP | TBT | CLS | Speed Index |
+|---|---|---|---|---|---|---|---|---|---|
+| Home, mobile: before | 49 | 96 | 100 | 100 | 6.33 s | 4.53 s | 783 ms | 0.006 | 2.83 s |
+| Home, mobile: **after** | **52** | **100** | 100 | 100 | **4.55 s** | **3.00 s** | 1,538 ms | 0.006 | 3.25 s |
+| Home, desktop: before | 96 | 92 | 100 | 100 | 1.43 s | 0.53 s | 14 ms | 0.004 | 0.68 s |
+| Home, desktop: **after** | **100** | **100** | 100 | 100 | **0.38 s** | **0.38 s** | 31 ms | 0.004 | 0.61 s |
+| Article, mobile: before | 36 | 100 | 100 | 100 | 6.68 s | 3.89 s | 1,099 ms | 0.187 | 4.09 s |
+| Article, mobile: **after** | **57** | 100 | 100 | 100 | **4.09 s** | **2.59 s** | 1,381 ms | **0.002** | **2.92 s** |
+
+(The home accessibility score was 96 in the timed runs; a final contrast fix brought it to 100, confirmed in a separate accessibility-only run.)
+
+How to read this:
+- **Wins:** LCP is down 1.8–2.6 s on mobile and 1.0 s on desktop. FCP is down 1.3–1.5 s. Article CLS is fixed (0.187 → 0.002). Desktop performance is 100. Accessibility is 100. And, most importantly, all content is now in the HTML (§8.1), which Lighthouse's SEO score doesn't measure.
+- **Mobile Total Blocking Time went up.** Part of this is a measurement artifact: before, the first paint happened so late that most JavaScript ran before FCP, where TBT doesn't count it. The rest is real: React has to hydrate a much larger, complete document (FAQ, About answer, articles). Mitigations already applied: per-section Suspense hydration, a cheaper AnimatedText (one scroll listener instead of about 530 animated components), CSS-only hero animations. What remains is mostly the cost of React plus framer-motion for an animation-heavy page. Further options are in §8.6.
+- **Tried and rejected:** `content-visibility: auto` on below-the-fold sections improved the lab score by about 4 points, but made deep links (`/#contact`, `/#faq`) land up to 230 px off target. Verified with and without it, using a fresh browser profile each time. Working navigation matters more, so it was removed.
+- **Lighthouse "simulated" throttling** (the default) fails with `NO_LCP` on the new home page. Chrome itself records the LCP correctly (H1 at about 0.3–0.4 s unthrottled, verified with a PerformanceObserver). That's why both sides above use DevTools throttling.
+- **INP** can't be measured in the lab. Check Search Console → Core Web Vitals (CrUX field data) about 28 days after launch.
+
+### 8.3 Validation
+- `npm run seo:check`: **6 pages, 5 sitemap URLs, 0 errors, 0 warnings.** It checks title and description presence and length, an absolute canonical matching the served URL, robots, exactly one H1, alt on every `<img>`, absolute `og:image`, `lang`, and JSON-LD (parses, `@context`, required properties per type, every `@id` reference resolvable in the same graph, BreadcrumbList positions and absolute URLs). It also checks that FAQ schema questions **and answers** appear verbatim in the visible HTML, that internal links and `/#anchors` resolve, that every sitemap URL is an indexable canonical page and vice versa, and that robots.txt has no `Disallow: /`.
+- **No console or hydration errors** on `/` and an article, checked through the DevTools protocol.
+- Deep links land exactly below the navbar (`/#contact` and `/#faq` section top at 96 px = `scroll-margin-top`).
+- No mixed content: every asset is same-origin or https. One article cover is hotlinked from `encrypted-tbn0.gstatic.com` (see risks).
+- **Not done offline:** Google's Rich Results Test and the Schema.org validator need the public URL. Run both after deploy (checklist in `SEO-OFFSITE-CHECKLIST.md`).
+
+### 8.4 Files touched
+
+| Area | Files |
+|---|---|
+| Rendering / SSG | `src/entry-server.tsx` (new), `src/main.tsx` (hydrate), `scripts/prerender.mjs` (new), `vite.config.ts` (SSR build, sitemap plugin moved to prerender, `__CV_AVAILABLE__`), `index.html` (head/body placeholders, no Google Fonts), `package.json` (build/preview/seo:check), `.gitignore` |
+| SEO head + schema | `src/lib/seo.ts` (new), `src/lib/useSeo.ts` (new), `src/lib/initialData.ts` (new), `src/config/site.ts` (new, single domain constant), `src/lib/pageMeta.ts` (deleted) |
+| Pages | `src/App.tsx` (footer outside `<main>`, skip link), `src/pages/HomePage.tsx`, `BlogIndexPage.tsx`, `BlogPostPage.tsx`, `NotFoundPage.tsx` |
+| Content (AEO/GEO) | `src/data/content.ts` (entity facts, `WHO_IS`, `FAQS`, `MENTIONS`, Kathmandu), `src/sections/FaqSection.tsx` (new), `src/sections/MentionsSection.tsx` (new), `src/sections/AboutSection.tsx` (Who-is block), `src/components/Breadcrumbs.tsx` (new), `src/lib/projects.ts` + `ProjectsSection.tsx` (case-study fields, "Projects") |
+| Performance | `src/components/Reveal.tsx` (new), `src/index.css` (CSS entrance), `src/components/AnimatedText.tsx`, `src/sections/HeroSection.tsx`, `src/assets/decor/*.webp`, `src/assets/nishan-portrait-{520,800,1040}.webp`, `@fontsource/kanit` |
+| A11y / trust | `src/components/SiteHeader.tsx`, `SocialLinks.tsx` (`rel="me"`), `DownloadCvButton.tsx`, `src/sections/FooterSection.tsx`, `src/react-attrs.d.ts` |
+| Hosting | `vercel.json` (clean URLs, rewrites, security + cache headers), `public/_redirects`, `public/_headers` (new), `public/robots.txt` (now generated), `public/site.webmanifest`, `public/og-image.jpg` (new design) |
+| Tooling / docs | `scripts/seo-check.mjs`, `scripts/serve-dist.mjs`, `.github/workflows/seo-check.yml`, `README.md`, this file, `SEO-OFFSITE-CHECKLIST.md` |
+
+Generated at build: `index.html`, `blog.html`, `blog/<slug>.html`, `404.html`, `_spa.html`, `sitemap.xml`, `robots.txt`, `llms.txt`, `llms-full.txt` (about 1,150 words), `humans.txt`, `.well-known/security.txt`.
+
+### 8.5 Status of Phase 1 findings
+
+| # | Finding | Status |
+|---|---|---|
+| 1–3 | Empty SPA body, client-only meta, soft 404s | **Fixed** (SSG, per-page head, `404.html` with a 404 status) |
+| 4 | AnimatedText doubled characters | **Fixed** (each character rendered once; prohibited `aria-label` removed) |
+| 5 | No "who is" statement, weak H1 | **Fixed** (quotable answer block, full name and role in the H1) |
+| 6 | Entity naming | **Fixed** (one wording across copy, meta, schema and llms.txt) |
+| 7 | Thin JSON-LD | **Fixed** (§8.3) |
+| 8–11 | Mobile performance, fonts, Figma hotlinks, portrait | **Improved** (§8.2); fonts self-hosted, images local WebP with sizes, srcset + preload |
+| 12 | Supabase JS on home | **Partly.** Content now comes from build-time data; the chunk still loads to refresh data in the background (keeps new posts visible before a rebuild) |
+| 13 | Sitemap lastmod | **Fixed** (git commit date for pages, `updated_at` for posts) |
+| 14 | Projects lack problem/stack/outcome | **Template added**; needs real data (TODO below) |
+| 15 | No FAQ / question headings | **Fixed** (8 FAQs, question-style H3s; Who-is H3) |
+| 16 | AI crawler policy, llms.txt | **Fixed** (explicit groups, all allowed per decision; llms.txt + llms-full.txt) |
+| 17 | Security / cache headers | **Added** (HSTS, nosniff, Referrer-Policy, Permissions-Policy, X-Frame-Options, CSP in *Report-Only* mode, immutable `/assets`) |
+| 18 | Two host configs | **Kept both, now consistent**, since the host wasn't specified. Delete the one you don't use |
+| 19–21 | Landmarks, skip link, logo name, contrast, "Project" | **Fixed** |
+| 22 | Domain duplicated in 4 files | **Fixed** (`src/config/site.ts`) |
+| 23 | humans.txt / security.txt | **Added** (generated) |
+| 24 | Social profiles | **Confirmed:** GitHub, LinkedIn, Instagram, Facebook only |
+| new | CV links pointed to a missing PDF (404) | **Fixed** (links render only once `public/Nishan-Bharati-CV.pdf` exists) |
+
+### 8.6 Remaining risks and TODOs (honest list)
+
+**Needs Nishan (TODO: confirm with Nishan)**
+1. **Domain.** `https://nishanbharati.com.np` is a placeholder in `src/config/site.ts`. Confirm it before launch, and redirect `www` and `http` to `https://nishanbharati.com.np` at the DNS/host level. Also update the URL printed on `og-image.jpg` if it changes.
+2. **CV PDF.** Add `public/Nishan-Bharati-CV.pdf`; the CV buttons then appear automatically.
+3. **Experience and education dates.** Add `period` values in `content.ts`. Dated facts are much more quotable for AI answers.
+4. **Project case studies.** Fill `stack`, `problem`, `approach` and `result` (verified results only). For Supabase-managed projects, add those columns and select them in `fetchPublishedProjects` and the prerender query.
+5. **Navya EdTech logo URL and company profiles** for the Organization schema (`logo`, `sameAs`). Left as a TODO in `src/lib/seo.ts`.
+6. **Blog cover images.** "Is SEO Dead?" uses a low-resolution thumbnail hotlinked from Google Images. Upload real 1200×630 covers to Supabase Storage. These become the social share images.
+7. **Hosting.** Delete `vercel.json` or `public/_redirects` + `public/_headers` once the host is chosen. Set up a **deploy hook** and trigger it after publishing a post.
+
+**Technical risks**
+- **Freshness:** a post published in the admin isn't prerendered (no own meta or schema, not in the sitemap) until the next build. It still works client-side. Mitigation: the deploy hook.
+- **CSP** ships as `Content-Security-Policy-Report-Only` so it can't break the site or admin unseen. After a week of clean browser consoles in production, switch it to enforcing.
+- **FAQ rich results:** since 2023 Google only shows FAQ rich snippets for authoritative government and health sites. The FAQPage markup is still valid and useful to answer engines, but **don't expect FAQ snippets in Google**. ProfilePage, Article and Breadcrumb markup *are* eligible.
+- **llms.txt** has no proven effect on rankings or AI citations. It's a low-cost, low-certainty addition.
+- **Mobile TBT** (§8.2). Next options if field INP is poor: replace the per-character About animation with a CSS scroll-driven one, lazy-mount framer-motion below the fold, or move the static sections to non-hydrated islands (a larger architectural change, so ask first).
+- **AnimatedText markup:** each character is its own `<span>`. Real HTML parsers and Google read the words correctly, but crude tag-stripping scrapers may see spaced letters. The same facts are available as plain text in the Who-is block, FAQ, meta and llms.txt.
+- **Mentions section:** it currently renders nothing. When real entries are added, place it so the black/white section alternation stays intact.
+- `alternateName: "Nisan Bharati"` is inferred from the Facebook handle. Remove it if that spelling isn't one you use.
