@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="120 55 360 360" role="img" aria-label="Nishan Bharati logo mark">
+<!-- Symbol-only crop of logo.svg (no wordmark) for small placements such as the navbar. -->
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E53935"/><stop offset="1" stop-color="#B71C1C"/></linearGradient>
+<path id="bolt" d="M8,-150 L30,-84 L14,-80 L28,-10 L-26,-90 L-8,-94 Z"/><path id="shard" d="M0,-132 L15,-84 L-5,-96 Z"/></defs>
+<g transform="translate(300 235) scale(1.18)" fill="url(#g)"><use href="#bolt" transform="rotate(0)"/><use href="#bolt" transform="rotate(90)"/><use href="#bolt" transform="rotate(180)"/><use href="#bolt" transform="rotate(270)"/><use href="#shard" transform="rotate(38)"/><use href="#shard" transform="rotate(128)"/><use href="#shard" transform="rotate(218)"/><use href="#shard" transform="rotate(308)"/></g>
+</svg>

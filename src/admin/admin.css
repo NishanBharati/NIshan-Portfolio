@@ -1,0 +1,466 @@
+/*
+ * AdminLTE theme overrides so the admin panel matches the portfolio:
+ * #0C0C0C ground, #D7E2EA text, Kanit type and the purple/orange brand gradient.
+ */
+
+[data-bs-theme='dark'] {
+  --brand-text: #d7e2ea;
+  --brand-purple: #b600a8;
+  --brand-violet: #7621b0;
+  --brand-gradient: linear-gradient(123deg, #18011f 7%, #b600a8 37%, #7621b0 72%, #be4c00 100%);
+  --heading-gradient: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+
+  --bs-body-font-family: 'Kanit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bs-body-font-weight: 300;
+  --bs-body-bg: #0c0c0c;
+  --bs-body-bg-rgb: 12, 12, 12;
+  --bs-body-color: #d7e2ea;
+  --bs-body-color-rgb: 215, 226, 234;
+  --bs-secondary-bg: #121212;
+  --bs-secondary-bg-rgb: 18, 18, 18;
+  --bs-tertiary-bg: #0c0c0c;
+  --bs-tertiary-bg-rgb: 12, 12, 12;
+  --bs-secondary-color: rgba(215, 226, 234, 0.6);
+  --bs-border-color: rgba(215, 226, 234, 0.12);
+  --bs-border-color-translucent: rgba(215, 226, 234, 0.1);
+  --bs-emphasis-color: #ffffff;
+  --bs-heading-color: #d7e2ea;
+  --bs-link-color: #e9b4ff;
+  --bs-link-color-rgb: 233, 180, 255;
+  --bs-link-hover-color: #ffffff;
+  --bs-link-hover-color-rgb: 255, 255, 255;
+  --bs-primary: #a51fb6;
+  --bs-primary-rgb: 165, 31, 182;
+  --bs-primary-text-emphasis: #e9b4ff;
+  --bs-primary-bg-subtle: rgba(182, 0, 168, 0.15);
+  --bs-primary-border-subtle: rgba(182, 0, 168, 0.4);
+  --bs-focus-ring-color: rgba(182, 0, 168, 0.35);
+  --bs-border-radius: 0.75rem;
+  --bs-border-radius-lg: 1.25rem;
+  --bs-border-radius-sm: 0.5rem;
+}
+
+body {
+  letter-spacing: 0.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 500;
+}
+
+.text-gradient {
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-uppercase-wide {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-weight: 500;
+  --bs-btn-border-radius: 999px;
+  --bs-btn-padding-x: 1.1rem;
+}
+
+.btn-sm {
+  --bs-btn-padding-x: 0.75rem;
+}
+
+.btn-primary {
+  --bs-btn-bg: #a51fb6;
+  --bs-btn-border-color: #a51fb6;
+  --bs-btn-hover-bg: #8f1a9e;
+  --bs-btn-hover-border-color: #8f1a9e;
+  --bs-btn-active-bg: #7a1687;
+  --bs-btn-active-border-color: #7a1687;
+  --bs-btn-disabled-bg: #a51fb6;
+  --bs-btn-disabled-border-color: #a51fb6;
+  --bs-btn-focus-shadow-rgb: 182, 0, 168;
+}
+
+.btn-outline-light {
+  --bs-btn-color: #d7e2ea;
+  --bs-btn-border-color: rgba(215, 226, 234, 0.35);
+  --bs-btn-hover-bg: rgba(215, 226, 234, 0.1);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-border-color: #d7e2ea;
+  --bs-btn-active-bg: rgba(215, 226, 234, 0.15);
+  --bs-btn-active-color: #ffffff;
+}
+
+/* Signature gradient pill, same as the site's "Contact Me" button. */
+.btn-brand {
+  --bs-btn-color: #ffffff;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-disabled-color: #ffffff;
+  --bs-btn-border-width: 0;
+  background: var(--brand-gradient);
+  box-shadow:
+    0 4px 4px rgba(181, 1, 167, 0.25),
+    4px 4px 12px #7721b1 inset;
+  outline: 2px solid #ffffff;
+  outline-offset: -3px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-brand:hover,
+.btn-brand:focus-visible {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-brand:active {
+  transform: translateY(0);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  --bs-card-bg: #121212;
+  --bs-card-cap-bg: transparent;
+  --bs-card-border-color: rgba(215, 226, 234, 0.1);
+  --bs-card-border-radius: 1.25rem;
+  --bs-card-inner-border-radius: calc(1.25rem - 1px);
+}
+
+.card-header .card-title {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+}
+
+.card-primary.card-outline {
+  border-top: 3px solid var(--brand-purple);
+}
+
+/* ---------- Forms ---------- */
+.form-control,
+.form-select,
+.input-group-text {
+  background-color: #0c0c0c;
+  border-color: rgba(215, 226, 234, 0.15);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #0c0c0c;
+  border-color: var(--brand-purple);
+  box-shadow: 0 0 0 0.2rem rgba(182, 0, 168, 0.25);
+}
+
+.form-label {
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  color: var(--bs-secondary-color);
+}
+
+.editor-textarea {
+  font-family: ui-monospace, SFMono-Regular, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  min-height: 420px;
+}
+
+/* ---------- Layout ---------- */
+.app-header {
+  border-bottom: 1px solid rgba(215, 226, 234, 0.08);
+}
+
+.app-sidebar {
+  --bs-secondary-bg: #0f0f0f;
+  border-right: 1px solid rgba(215, 226, 234, 0.08);
+}
+
+.sidebar-brand {
+  border-bottom-color: rgba(215, 226, 234, 0.08) !important;
+}
+
+.sidebar-brand .brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+}
+
+.brand-monogram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--brand-gradient);
+  outline: 2px solid #ffffff;
+  outline-offset: -3px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.sidebar-brand .brand-text {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.95rem;
+  color: #d7e2ea;
+}
+
+.sidebar-menu .nav-header {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: rgba(215, 226, 234, 0.45);
+}
+
+.sidebar-menu .nav-link {
+  border-radius: 999px;
+}
+
+.sidebar-menu .nav-link.active {
+  background: var(--brand-gradient) !important;
+  color: #ffffff !important;
+  box-shadow: 4px 4px 12px rgba(119, 33, 177, 0.55) inset;
+}
+
+.app-content-header h3 {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+}
+
+.app-footer {
+  border-top: 1px solid rgba(215, 226, 234, 0.08);
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+}
+
+/* ---------- Small boxes ---------- */
+.small-box {
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.small-box > .inner h3 {
+  font-weight: 700;
+}
+
+.small-box .small-box-icon {
+  color: rgba(255, 255, 255, 0.18);
+}
+
+.small-box.brand-box {
+  background: var(--brand-gradient);
+  color: #ffffff;
+}
+
+/* ---------- Tables ---------- */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: rgba(215, 226, 234, 0.04);
+  --bs-table-border-color: rgba(215, 226, 234, 0.08);
+}
+
+.table > thead th {
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  color: var(--bs-secondary-color);
+}
+
+.post-thumb {
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  background: var(--brand-gradient);
+  flex-shrink: 0;
+}
+
+/* ---------- Login ---------- */
+.login-page {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(182, 0, 168, 0.18) 0%, transparent 70%),
+    radial-gradient(40% 40% at 90% 100%, rgba(190, 76, 0, 0.12) 0%, transparent 70%),
+    #0c0c0c !important;
+}
+
+.login-box {
+  width: min(400px, calc(100vw - 2rem));
+}
+
+.login-logo {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.login-logo .text-gradient {
+  font-size: clamp(2.5rem, 10vw, 3.4rem);
+}
+
+.login-card-body {
+  border-radius: 1.25rem;
+}
+
+/* ---------- Markdown preview ---------- */
+.markdown-preview {
+  min-height: 420px;
+  line-height: 1.75;
+}
+
+.markdown-preview img {
+  max-width: 100%;
+  border-radius: 1rem;
+}
+
+.markdown-preview pre {
+  background: #0c0c0c;
+  border: 1px solid rgba(215, 226, 234, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.markdown-preview blockquote {
+  border-left: 3px solid var(--brand-purple);
+  padding-left: 1rem;
+  color: var(--bs-secondary-color);
+}
+
+/* ---------- Cover upload ---------- */
+.cover-preview {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  border: 1px solid rgba(215, 226, 234, 0.12);
+}
+
+.cover-dropzone {
+  aspect-ratio: 16 / 10;
+  border: 2px dashed rgba(215, 226, 234, 0.2);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  color: var(--bs-secondary-color);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.cover-dropzone:hover,
+.cover-dropzone.is-dragging {
+  border-color: var(--brand-purple);
+  background: rgba(182, 0, 168, 0.06);
+}
+
+/* ---------- Project card image slots ---------- */
+.project-slot-grid {
+  display: flex;
+  gap: 0.5rem;
+  min-height: 244px;
+}
+
+.project-slot {
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  border: 2px solid rgba(215, 226, 234, 0.15);
+  background: rgba(215, 226, 234, 0.04);
+  color: var(--bs-secondary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-slot.is-empty {
+  border-style: dashed;
+}
+
+.project-slot:hover {
+  border-color: rgba(215, 226, 234, 0.4);
+}
+
+.project-slot.is-active,
+.project-slot.is-dragging {
+  border-color: var(--brand-purple);
+  box-shadow: 0 0 0 3px rgba(182, 0, 168, 0.25);
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.4rem 0.25rem 0.8rem;
+  border: 1px solid rgba(215, 226, 234, 0.25);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tag-chip button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+  line-height: 1;
+  padding: 0 0.2rem;
+}
+
+.tag-chip button:hover {
+  opacity: 1;
+}
+
+/* ---------- Full-page loader ---------- */
+.admin-loader {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-container {
+  z-index: 1090;
+}

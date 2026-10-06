@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  background: #0c0c0c;
+  font-family: 'Kanit', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Ensure anchor scroll targets land cleanly below the fixed floating navbar */
+[id] {
+  scroll-margin-top: 96px;
+}
+
+/* Feathers the square portrait's edges into the page background (photo bg is #0B0B0B). */
+.portrait-fade {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 70%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 70%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Heading gradient for light sections (dark ink instead of the pale hero gradient). */
+.heading-dark {
+  background: linear-gradient(180deg, #0c0c0c 0%, #4b4f57 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Section backgrounds, strictly alternating black / white down the home page. */
+.bg-section-black {
+  background: #0c0c0c;
+}
+
+.bg-section-white {
+  background: #ffffff;
+}
