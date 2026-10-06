@@ -8,6 +8,7 @@ const TONES = {
 
 /** Outline companion to the gradient ContactButton; serves the PDF from public/. `light` is for white sections. */
 export default function DownloadCvButton({ className = '', tone = 'dark' }: { className?: string; tone?: keyof typeof TONES }) {
+  if (!PROFILE.cvHref) return null;
   return (
     <a
       href={PROFILE.cvHref}

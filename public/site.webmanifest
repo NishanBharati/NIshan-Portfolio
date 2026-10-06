@@ -1,11 +1,17 @@
 {
-  "name": "Nishan Bharati — Full Stack Developer",
+  "id": "/",
+  "name": "Nishan Bharati | Full Stack Developer",
   "short_name": "Nishan Bharati",
+  "description": "Nishan Bharati is a Full Stack Developer and co-founder of Navya EdTech in Kathmandu, Nepal.",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "/",
+  "scope": "/",
   "display": "browser",
   "background_color": "#0C0C0C",
   "theme_color": "#0C0C0C",
   "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }

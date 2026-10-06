@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import FadeIn from '../components/FadeIn';
+import Breadcrumbs from '../components/Breadcrumbs';
+import Reveal from '../components/Reveal';
+import { PROFILE } from '../data/content';
 import BlogCard, { BlogCardSkeleton, BlogEmptyState } from '../components/BlogCard';
-import FooterSection from '../sections/FooterSection';
 import { usePublishedPosts } from '../lib/usePublishedPosts';
-import { SITE_TITLE, setPageMeta } from '../lib/pageMeta';
+import { blogIndexSeo } from '../lib/seo';
+import { useSeo } from '../lib/useSeo';
 
 const ALL = 'All';
 
@@ -11,16 +14,8 @@ export default function BlogIndexPage() {
   const state = usePublishedPosts();
   const [activeTag, setActiveTag] = useState(ALL);
 
-  useEffect(
-    () =>
-      setPageMeta(
-        `Blog · ${SITE_TITLE}`,
-        'Articles by Nishan Bharati on full stack development, software and building digital products in Nepal.',
-      ),
-    [],
-  );
-
   const posts = state.status === 'ready' ? state.posts : [];
+  useSeo(blogIndexSeo({ posts }));
   const tags = useMemo(() => [ALL, ...Array.from(new Set(posts.flatMap((p) => p.tags))).sort()], [posts]);
   const visible = activeTag === ALL ? posts : posts.filter((p) => p.tags.includes(activeTag));
 
@@ -28,31 +23,34 @@ export default function BlogIndexPage() {
     <>
       <section className="px-5 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-32 md:px-10 md:pb-32 md:pt-36">
         <div className="mb-14 flex flex-col items-center gap-6 text-center sm:mb-20">
-          <FadeIn y={20}>
+          <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Blog' }]} />
+          <Reveal y={20}>
             <span
               className="font-light uppercase tracking-widest text-[#D7E2EA]/60"
               style={{ fontSize: 'clamp(0.75rem, 1.2vw, 1rem)' }}
             >
               Insights &amp; articles
             </span>
-          </FadeIn>
-          <FadeIn y={40} delay={0.1}>
-            <h1
-              className="hero-heading font-black uppercase leading-none tracking-tight"
-              style={{ fontSize: 'clamp(3.5rem, 15vw, 220px)' }}
-            >
-              Blog
-            </h1>
-          </FadeIn>
-          <FadeIn y={20} delay={0.2}>
+          </Reveal>
+          <div className="overflow-hidden">
+            <Reveal rise y={120} delay={0.05}>
+              <h1
+                className="hero-heading font-black uppercase leading-none tracking-tight"
+                style={{ fontSize: 'clamp(3.5rem, 15vw, 220px)' }}
+              >
+                Blog
+              </h1>
+            </Reveal>
+          </div>
+          <Reveal y={20} delay={0.2}>
             <p
               className="max-w-[560px] font-medium leading-relaxed text-[#D7E2EA]"
               style={{ fontSize: 'clamp(1rem, 2vw, 1.35rem)' }}
             >
-              Notes on full stack development, shipping software for real businesses and what we learn building Navya
-              EdTech.
+              Articles by {PROFILE.fullName} on full stack development, shipping software for real businesses and what we
+              learn building {PROFILE.company.name}.
             </p>
-          </FadeIn>
+          </Reveal>
         </div>
 
         <div className="mx-auto max-w-7xl">
@@ -98,8 +96,6 @@ export default function BlogIndexPage() {
           {state.status === 'error' && <BlogEmptyState error />}
         </div>
       </section>
-
-      <FooterSection />
     </>
   );
 }

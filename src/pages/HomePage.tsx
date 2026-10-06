@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Suspense } from 'react';
 import HeroSection from '../sections/HeroSection';
 import AboutSection from '../sections/AboutSection';
 import ExperienceSection from '../sections/ExperienceSection';
@@ -8,24 +8,30 @@ import ServicesSection from '../sections/ServicesSection';
 import ProjectsSection from '../sections/ProjectsSection';
 import BlogSection from '../sections/BlogSection';
 import ContactSection from '../sections/ContactSection';
-import FooterSection from '../sections/FooterSection';
-import { SITE_TITLE, setPageMeta } from '../lib/pageMeta';
+import FaqSection from '../sections/FaqSection';
+import MentionsSection from '../sections/MentionsSection';
+import { FALLBACK_PROJECTS } from '../data/content';
+import { getInitialData } from '../lib/initialData';
+import { homeSeo } from '../lib/seo';
+import { useSeo } from '../lib/useSeo';
 
 export default function HomePage() {
-  useEffect(() => setPageMeta(SITE_TITLE), []);
+  const { projects = FALLBACK_PROJECTS, lastUpdated } = getInitialData();
+  useSeo(homeSeo({ projects, lastUpdated }));
 
+  // Each section below the hero is its own Suspense boundary. The prerendered HTML is identical, but
+  // React 18 hydrates boundaries as separate, interruptible tasks instead of one long main-thread
+  // block, which keeps Total Blocking Time and INP down on phones.
   return (
     <>
       <HeroSection />
-      <AboutSection />
-      <ExperienceSection />
-      <EducationSection />
-      <SkillsSection />
-      <ServicesSection />
-      <ProjectsSection />
-      <BlogSection />
-      <ContactSection />
-      <FooterSection overlap />
+      {[AboutSection, ExperienceSection, EducationSection, SkillsSection, ServicesSection, ProjectsSection, BlogSection, MentionsSection, ContactSection, FaqSection].map(
+        (Section, i) => (
+          <Suspense key={i} fallback={null}>
+            <Section />
+          </Suspense>
+        ),
+      )}
     </>
   );
 }

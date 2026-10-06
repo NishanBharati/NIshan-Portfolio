@@ -73,8 +73,11 @@ admin/index.html          Admin entry (separate page so Bootstrap and Tailwind n
 src/
   admin/                  AdminLTE app: auth, layout, dashboard, posts, editor
   components/             Shared site components (FadeIn, Magnet, BlogCard, …)
-  data/content.ts         All portfolio copy, skills, services and projects
-  lib/                    Supabase client and blog queries
+  config/site.ts          Canonical domain (single source)
+  data/content.ts         All portfolio copy, skills, services, projects, FAQ and entity facts
+  entry-server.tsx        Build-time render entry used by scripts/prerender.mjs
+  lib/                    Supabase client, blog queries, SEO head + JSON-LD (seo.ts)
+scripts/                  prerender.mjs, seo-check.mjs, serve-dist.mjs
   pages/                  Home, blog index, article, 404
   sections/               Home page sections
 supabase/schema.sql       Database, policies and storage setup
@@ -82,6 +85,23 @@ supabase/schema.sql       Database, policies and storage setup
 
 ## Deployment
 
-`npm run build` outputs static files to `dist/` (site at `/`, admin at `/admin/`).
-Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as environment variables on your host.
-Routing rewrites are included for **Vercel** (`vercel.json`) and **Netlify** (`public/_redirects`).
+`npm run build` type-checks, builds the client, then **prerenders** every public page to static HTML
+(`scripts/prerender.mjs`): `/`, `/blog`, every published post, and a real `404.html`. It also writes
+`sitemap.xml`, `robots.txt`, `llms.txt`, `llms-full.txt`, `humans.txt` and `.well-known/security.txt`.
+Blog posts and projects are fetched from Supabase **at build time**, so:
+
+- Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as environment variables on your host (build + runtime).
+- **Redeploy after publishing a post** so it gets its own static page, metadata and sitemap entry. Easiest: create a
+  deploy hook on Vercel/Netlify and open it after publishing. Until then, new posts still work (client-rendered).
+
+Routing, clean URLs, security and cache headers are configured for **Vercel** (`vercel.json`) and **Netlify**
+(`public/_redirects`, `public/_headers`). The production domain lives in one place: `src/config/site.ts`.
+
+```
+npm run build        # build + prerender into dist/
+npm run seo:check    # fails on missing title/description/canonical/H1, bad JSON-LD, broken links
+npm run preview      # serve dist/ like production (clean URLs, real 404s) at http://localhost:4173
+```
+
+The CV buttons appear automatically once `public/Nishan-Bharati-CV.pdf` exists at build time.
+See `SEO-AUDIT.md` and `SEO-OFFSITE-CHECKLIST.md` for the SEO/GEO/AEO setup.

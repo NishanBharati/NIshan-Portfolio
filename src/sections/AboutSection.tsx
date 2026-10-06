@@ -3,7 +3,7 @@ import AnimatedText from '../components/AnimatedText';
 import ContactButton from '../components/ContactButton';
 import DownloadCvButton from '../components/DownloadCvButton';
 import { ArrowUpRight } from 'lucide-react';
-import { ABOUT_DECORATIONS, ABOUT_TEXT, PROFILE } from '../data/content';
+import { ABOUT_DECORATIONS, ABOUT_TEXT, PROFILE, WHO_IS } from '../data/content';
 
 export default function AboutSection() {
   return (
@@ -18,7 +18,7 @@ export default function AboutSection() {
         duration={0.9}
         className="pointer-events-none absolute left-[1%] top-[4%] w-[120px] sm:left-[2%] sm:w-[160px] md:left-[4%] md:w-[210px]"
       >
-        <img src={ABOUT_DECORATIONS.moon} alt="" loading="lazy" className="h-auto w-full" />
+        <img src={ABOUT_DECORATIONS.moon.src} width={ABOUT_DECORATIONS.moon.width} height={ABOUT_DECORATIONS.moon.height} alt="" loading="lazy" decoding="async" className="h-auto w-full" />
       </FadeIn>
       <FadeIn
         delay={0.25}
@@ -27,7 +27,7 @@ export default function AboutSection() {
         duration={0.9}
         className="pointer-events-none absolute bottom-[8%] left-[3%] w-[100px] sm:left-[6%] sm:w-[140px] md:left-[10%] md:w-[180px]"
       >
-        <img src={ABOUT_DECORATIONS.object} alt="" loading="lazy" className="h-auto w-full" />
+        <img src={ABOUT_DECORATIONS.object.src} width={ABOUT_DECORATIONS.object.width} height={ABOUT_DECORATIONS.object.height} alt="" loading="lazy" decoding="async" className="h-auto w-full" />
       </FadeIn>
       <FadeIn
         delay={0.15}
@@ -36,7 +36,7 @@ export default function AboutSection() {
         duration={0.9}
         className="pointer-events-none absolute right-[1%] top-[4%] w-[120px] sm:right-[2%] sm:w-[160px] md:right-[4%] md:w-[210px]"
       >
-        <img src={ABOUT_DECORATIONS.lego} alt="" loading="lazy" className="h-auto w-full" />
+        <img src={ABOUT_DECORATIONS.lego.src} width={ABOUT_DECORATIONS.lego.width} height={ABOUT_DECORATIONS.lego.height} alt="" loading="lazy" decoding="async" className="h-auto w-full" />
       </FadeIn>
       <FadeIn
         delay={0.3}
@@ -45,7 +45,7 @@ export default function AboutSection() {
         duration={0.9}
         className="pointer-events-none absolute bottom-[8%] right-[3%] w-[130px] sm:right-[6%] sm:w-[170px] md:right-[10%] md:w-[220px]"
       >
-        <img src={ABOUT_DECORATIONS.group} alt="" loading="lazy" className="h-auto w-full" />
+        <img src={ABOUT_DECORATIONS.group.src} width={ABOUT_DECORATIONS.group.width} height={ABOUT_DECORATIONS.group.height} alt="" loading="lazy" decoding="async" className="h-auto w-full" />
       </FadeIn>
 
       <div className="relative z-10 flex flex-col items-center gap-16 sm:gap-20 md:gap-24">
@@ -83,6 +83,33 @@ export default function AboutSection() {
           <ContactButton />
           <DownloadCvButton tone="light" />
         </div>
+
+        {/* Direct, quotable answer for search and answer engines (also used in meta and JSON-LD). */}
+        <FadeIn y={30} className="w-full max-w-4xl">
+          <div className="flex flex-col gap-8 rounded-[40px] border-2 border-[#0C0C0C]/15 bg-white p-6 text-[#0C0C0C] sm:rounded-[50px] sm:p-10">
+            <div className="flex flex-col gap-4">
+              <h3 className="font-medium uppercase" style={{ fontSize: 'clamp(1.15rem, 2vw, 1.75rem)' }}>
+                Who is {PROFILE.fullName}?
+              </h3>
+              <p className="font-light leading-relaxed text-[#0C0C0C]/75" style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)' }}>
+                {WHO_IS}
+              </p>
+            </div>
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-[#0C0C0C]/10 pt-6 md:grid-cols-4">
+              {[
+                ['Role', PROFILE.jobTitle],
+                ['Company', `Co-Founder, ${PROFILE.company.name}`],
+                ['Based in', PROFILE.location],
+                ['Core stack', 'MERN · Next.js · Laravel'],
+              ].map(([term, value]) => (
+                <div key={term} className="flex flex-col gap-1">
+                  <dt className="text-xs font-light uppercase tracking-widest text-[#0C0C0C]/60">{term}</dt>
+                  <dd className="font-medium">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );

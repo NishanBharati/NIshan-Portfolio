@@ -1,8 +1,15 @@
 import type { ShowcaseProject } from '../lib/projects';
+import { SITE_URL } from '../config/site';
 
+/**
+ * Entity facts. Keep this wording identical everywhere (site copy, meta tags, JSON-LD, llms.txt and
+ * external profiles; see SEO-OFFSITE-CHECKLIST.md). Search and AI engines match entities on consistency.
+ */
 export const PROFILE = {
   firstName: 'Nishan',
   fullName: 'Nishan Bharati',
+  /** Primary job title used in titles, meta and schema. */
+  jobTitle: 'Full Stack Developer',
   role: 'Co-Founder & Full Stack Developer',
   tagline: 'co-founder & full stack developer building fast, scalable software for ambitious businesses',
   email: 'nishanbharati12345@gmail.com',
@@ -11,12 +18,17 @@ export const PROFILE = {
   company: {
     name: 'Navya EdTech',
     href: 'https://navyaedtech.com/',
+    description: 'an IT and software development company in Nepal',
   },
-  location: 'Nepal',
-  /** Canonical origin; keep in sync with index.html, public/robots.txt and public/sitemap.xml. */
-  siteUrl: 'https://nishanbharati.com.np',
+  location: 'Kathmandu, Nepal',
+  city: 'Kathmandu',
+  country: 'Nepal',
+  countryCode: 'NP',
+  /** Canonical origin, from src/config/site.ts. */
+  siteUrl: SITE_URL,
   /** Drop the PDF at public/Nishan-Bharati-CV.pdf. */
-  cvHref: '/Nishan-Bharati-CV.pdf',
+  /** null until the PDF exists at build time (see __CV_AVAILABLE__ in vite.config.ts): no broken CV links. */
+  cvHref: __CV_AVAILABLE__ ? '/Nishan-Bharati-CV.pdf' : null,
 };
 
 // Ordered by relevance to clients and recruiters. Also listed as `sameAs` in the JSON-LD in index.html.
@@ -45,15 +57,25 @@ export const NAV_LINKS: NavLinkItem[] = [
 ];
 
 // Optimised WebP of src/assets/nishan-portrait-original.png (bundled and hashed by Vite).
-export { default as HERO_PORTRAIT } from '../assets/nishan-portrait.webp';
+import portrait520 from '../assets/nishan-portrait-520.webp';
+import portrait800 from '../assets/nishan-portrait-800.webp';
+import portrait1040 from '../assets/nishan-portrait-1040.webp';
+import decorMoon from '../assets/decor/moon.webp';
+import decorObject from '../assets/decor/object.webp';
+import decorLego from '../assets/decor/lego.webp';
+import decorGroup from '../assets/decor/group.webp';
 
-const FIGMA = 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7';
+export const HERO_PORTRAIT = portrait800;
+/** Responsive candidates for the hero portrait (rendered 280-520 CSS px wide). */
+export const HERO_PORTRAIT_SRCSET = `${portrait520} 520w, ${portrait800} 800w, ${portrait1040} 1040w`;
+export const HERO_PORTRAIT_SIZES = '(min-width: 1024px) 520px, (min-width: 768px) 440px, (min-width: 640px) 360px, 280px';
 
+// Self-hosted, resized WebP versions of the original Figma decorations.
 export const ABOUT_DECORATIONS = {
-  moon: `${FIGMA}/moon_icon.11395d36.png`,
-  object: `${FIGMA}/p59_1.4659672e.png`,
-  lego: `${FIGMA}/lego_icon-1.703bb594.png`,
-  group: `${FIGMA}/Group_134-1.2e04f3ce.png`,
+  moon: { src: decorMoon, width: 440, height: 440 },
+  object: { src: decorObject, width: 420, height: 446 },
+  lego: { src: decorLego, width: 440, height: 536 },
+  group: { src: decorGroup, width: 440, height: 432 },
 };
 
 export const ABOUT_TEXT =
@@ -248,3 +270,71 @@ export const FALLBACK_PROJECTS: ShowcaseProject[] = [
     },
   },
 ];
+
+/**
+ * Direct answer to "Who is Nishan Bharati?" (40-60 words, third person) so search and answer engines
+ * can quote it verbatim. Shown in the About section and reused in meta, JSON-LD and llms.txt.
+ */
+export const WHO_IS =
+  'Nishan Bharati is a Full Stack Developer based in Kathmandu, Nepal, and the co-founder of Navya EdTech, an IT and software development company. As its Lead Full Stack Developer, Nishan builds custom web applications, e-commerce stores and CMS platforms with React, Next.js, TypeScript, Node.js, Express, Laravel, MongoDB and PostgreSQL.';
+
+export type Faq = { question: string; answer: string };
+
+/** Visible FAQ section; the FAQPage JSON-LD is generated from this same array, so they always match. */
+export const FAQS: Faq[] = [
+  {
+    question: 'What does Nishan Bharati do?',
+    answer:
+      'Nishan Bharati is a Full Stack Developer and the co-founder of Navya EdTech in Kathmandu, Nepal. Nishan designs and builds complete web products, from database schema and APIs to the finished interface, including custom web applications, e-commerce storefronts, self-serve CMS admin panels and technical SEO and performance work for businesses.',
+  },
+  {
+    question: 'What is Navya EdTech?',
+    answer:
+      'Navya EdTech is an IT and software development company in Nepal, co-founded by Nishan Bharati, who leads its engineering as Lead Full Stack Developer. The company designs and builds websites, web applications and software for businesses, and presents its services, case studies and technology stack at navyaedtech.com.',
+  },
+  {
+    question: 'What technologies does Nishan Bharati work with?',
+    answer:
+      'Nishan Bharati works with the MERN stack (MongoDB, Express, React, Node.js) plus Next.js, TypeScript, Tailwind CSS and Framer Motion on the frontend, Laravel for PHP backends and REST APIs, MySQL and PostgreSQL for relational data, and Git, CI/CD, Docker, Linux VPS hosting and Cloudflare for deployment.',
+  },
+  {
+    question: 'What services does Nishan Bharati offer?',
+    answer:
+      'Nishan Bharati offers five core services: custom web applications built end to end, e-commerce and CMS platforms with self-serve admin panels, backend and API development, UI/UX and web design, and technical consulting covering architecture, technology choices, SEO and performance audits for businesses planning or growing a digital product.',
+  },
+  {
+    question: 'Is Nishan Bharati available for new projects?',
+    answer: `Yes. Nishan Bharati is currently available for new projects through Navya EdTech. The quickest way to start is the inquiry form on this site; you can also email ${PROFILE.email} or call ${PROFILE.phone} with a short description of the product, timeline and budget, and Nishan will reply with next steps.`,
+  },
+  {
+    question: 'Where is Nishan Bharati based?',
+    answer:
+      'Nishan Bharati is based in Kathmandu, Nepal. Past work includes websites and storefronts for businesses in the Kathmandu Valley, such as a photography studio and cultural store in Bhaktapur and a sanitary, solar and water-purification retailer in Lalitpur, alongside the website of Navya EdTech, the company Nishan co-founded.',
+  },
+  {
+    question: 'What projects has Nishan Bharati built?',
+    answer:
+      'Selected projects include Kabita Studio & Store, a booking-first website and online catalogue for a Bhaktapur photography studio with WhatsApp inquiries; the company website of Navya EdTech; and Suravi Sanitary Suppliers, a full-stack storefront with a self-serve CMS for a Lalitpur retailer. Each project links to its live site on this page.',
+  },
+  {
+    question: "What is Nishan Bharati's educational background?",
+    answer:
+      'Nishan Bharati studied for a Bachelor of Information Management (BIM) at Nepal Commerce Campus, Tribhuvan University, after completing +2 (higher secondary) in the Science faculty at Bluebird College and the Secondary Education Examination (SEE) at Tarapunja School. Professional training includes a Full Stack MERN Development course at Broadway Infosys.',
+  },
+];
+
+export type Mention = {
+  title: string;
+  publisher: string;
+  url: string;
+  /** ISO date, e.g. "2026-05-14". */
+  date: string;
+  kind: 'article' | 'interview' | 'podcast' | 'talk' | 'award' | 'listing';
+};
+
+/**
+ * Third-party press, interviews, talks and listings about Nishan or Navya EdTech. The "In the press"
+ * section and the Person.subjectOf JSON-LD render only when this has entries. Add real, linkable
+ * mentions only; never placeholders.
+ */
+export const MENTIONS: Mention[] = [];

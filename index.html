@@ -3,92 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nishan Bharati — Full Stack Developer</title>
-    <meta name="description" content="Nishan Bharati is a full stack developer and co-founder of Navya EdTech, an IT and software development company in Nepal, building fast, scalable web platforms, e-commerce and CMS solutions." />
     <meta name="author" content="Nishan Bharati" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#0C0C0C" />
-    <link rel="canonical" href="https://nishanbharati.com.np/" />
+    <meta name="format-detection" content="telephone=no" />
 
     <!-- Icons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="author" href="/humans.txt" type="text/plain" />
 
-    <!-- Open Graph (LinkedIn, Facebook, WhatsApp) -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Nishan Bharati" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:url" content="https://nishanbharati.com.np/" />
-    <meta property="og:title" content="Nishan Bharati — Full Stack Developer" />
-    <meta property="og:description" content="Co-founder of Navya EdTech in Nepal, building fast, scalable web platforms, e-commerce and CMS solutions for ambitious businesses." />
-    <meta property="og:image" content="https://nishanbharati.com.np/og-image.jpg" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Nishan Bharati, Co-Founder and Full Stack Developer at Navya EdTech" />
-
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Nishan Bharati — Full Stack Developer" />
-    <meta name="twitter:description" content="Co-founder of Navya EdTech in Nepal, building fast, scalable web platforms, e-commerce and CMS solutions for ambitious businesses." />
-    <meta name="twitter:image" content="https://nishanbharati.com.np/og-image.jpg" />
-    <meta name="twitter:image:alt" content="Nishan Bharati, Co-Founder and Full Stack Developer at Navya EdTech" />
-
-    <!-- Structured data: links this site, Navya EdTech and the social profiles to one person in search results -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "Person",
-            "@id": "https://nishanbharati.com.np/#person",
-            "name": "Nishan Bharati",
-            "url": "https://nishanbharati.com.np/",
-            "image": "https://nishanbharati.com.np/og-image.jpg",
-            "jobTitle": "Co-Founder & Full Stack Developer",
-            "description": "Full stack developer and co-founder of Navya EdTech, an IT and software development company in Nepal.",
-            "email": "mailto:nishanbharati12345@gmail.com",
-            "telephone": "+977-981-3796949",
-            "address": { "@type": "PostalAddress", "addressCountry": "NP" },
-            "worksFor": { "@id": "https://navyaedtech.com/#organization" },
-            "knowsAbout": ["Full Stack Development", "React", "Next.js", "TypeScript", "Node.js", "Laravel", "PostgreSQL", "E-Commerce", "Content Management Systems", "Technical SEO"],
-            "sameAs": [
-              "https://github.com/NishanBharati",
-              "https://www.linkedin.com/in/nishan-bharati-35333927b/",
-              "https://www.instagram.com/nishan_bharati/",
-              "https://www.facebook.com/nisan.bharati"
-            ]
-          },
-          {
-            "@type": "Organization",
-            "@id": "https://navyaedtech.com/#organization",
-            "name": "Navya EdTech",
-            "url": "https://navyaedtech.com/",
-            "founder": { "@id": "https://nishanbharati.com.np/#person" }
-          },
-          {
-            "@type": "WebSite",
-            "@id": "https://nishanbharati.com.np/#website",
-            "url": "https://nishanbharati.com.np/",
-            "name": "Nishan Bharati",
-            "publisher": { "@id": "https://nishanbharati.com.np/#person" },
-            "inLanguage": "en"
-          }
-        ]
-      }
-    </script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <!--
+      Page-specific head (title, description, canonical, robots, Open Graph, Twitter, JSON-LD, preloads)
+      is generated per route at build time by scripts/prerender.mjs from src/lib/seo.ts.
+      In `vite dev` the same tags are applied client-side by useSeo().
+    -->
+    <!--app-head-->
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -169,7 +169,6 @@ export default function SiteHeader() {
                 }
               }}
               className="group flex items-center gap-2.5 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              aria-label={`${PROFILE.fullName} - Home`}
             >
               <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
                 <img
@@ -183,8 +182,9 @@ export default function SiteHeader() {
               <span className="flex flex-col">
                 <span className="text-sm sm:text-[15px] font-semibold leading-tight tracking-tight text-white">
                   {PROFILE.firstName}
+                  <span className="sr-only"> Bharati, home</span>
                 </span>
-                <span className="hidden sm:block text-[10px] font-normal uppercase leading-none tracking-[0.18em] text-white/45">
+                <span className="hidden sm:block text-[10px] font-normal uppercase leading-none tracking-[0.18em] text-white/60">
                   Full Stack
                 </span>
               </span>
@@ -230,17 +230,19 @@ export default function SiteHeader() {
 
           {/* Right Section: Actions & Mobile Toggle */}
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <a
-              href={PROFILE.cvHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              download
-              className="hidden xl:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium tracking-wide text-white/75 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              title="Download Nishan's CV"
-            >
-              <FileText className="h-3.5 w-3.5" />
-              <span>CV</span>
-            </a>
+            {PROFILE.cvHref && (
+              <a
+                href={PROFILE.cvHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="hidden xl:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium tracking-wide text-white/75 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                title="Download Nishan's CV"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                <span>CV</span>
+              </a>
+            )}
 
             <Link
               to="/#contact"
@@ -345,7 +347,7 @@ export default function SiteHeader() {
               </motion.ul>
 
               {/* Mobile Actions */}
-              <div className="mt-3 pt-3 border-t border-white/[0.08] grid grid-cols-2 gap-2">
+              <div className={`mt-3 pt-3 border-t border-white/[0.08] grid gap-2 ${PROFILE.cvHref ? 'grid-cols-2' : 'grid-cols-1'}`}>
                 <Link
                   to="/#contact"
                   onClick={(e) => handleNavClick(e, '/#contact')}
@@ -354,16 +356,18 @@ export default function SiteHeader() {
                   <span>Let&apos;s Talk</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
-                <a
-                  href={PROFILE.cvHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  className="flex items-center justify-center gap-1.5 py-3 rounded-2xl text-xs font-medium tracking-wider uppercase text-white border border-white/15 hover:bg-white/10 transition-colors"
-                >
-                  <FileText className="h-3.5 w-3.5" />
-                  <span>CV</span>
-                </a>
+                {PROFILE.cvHref && (
+                  <a
+                    href={PROFILE.cvHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    className="flex items-center justify-center gap-1.5 py-3 rounded-2xl text-xs font-medium tracking-wider uppercase text-white border border-white/15 hover:bg-white/10 transition-colors"
+                  >
+                    <FileText className="h-3.5 w-3.5" />
+                    <span>CV</span>
+                  </a>
+                )}
               </div>
 
               {/* Social Links row in mobile menu */}

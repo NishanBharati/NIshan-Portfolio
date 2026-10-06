@@ -5,10 +5,16 @@ import LiveProjectButton from '../components/LiveProjectButton';
 import { FALLBACK_PROJECTS } from '../data/content';
 import { fetchPublishedProjects, type ProjectImage, type ShowcaseProject } from '../lib/projects';
 import { isSupabaseConfigured } from '../lib/supabase';
+import { getInitialData } from '../lib/initialData';
 
-/** Projects from Supabase; the built-in list is used when Supabase is unconfigured or unreachable. */
+/**
+ * Projects baked in at build time (if any), refreshed from Supabase in the background; the built-in
+ * list is used when Supabase is unconfigured or unreachable.
+ */
 function useShowcaseProjects(): ShowcaseProject[] | null {
-  const [projects, setProjects] = useState<ShowcaseProject[] | null>(isSupabaseConfigured ? null : FALLBACK_PROJECTS);
+  const [projects, setProjects] = useState<ShowcaseProject[] | null>(
+    () => getInitialData().projects ?? (isSupabaseConfigured ? null : FALLBACK_PROJECTS),
+  );
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
@@ -17,7 +23,7 @@ function useShowcaseProjects(): ShowcaseProject[] | null {
       .then((data) => !cancelled && setProjects(data))
       .catch((error: unknown) => {
         console.error('Failed to load projects, showing built-in list', error);
-        if (!cancelled) setProjects(FALLBACK_PROJECTS);
+        if (!cancelled) setProjects((prev) => prev ?? FALLBACK_PROJECTS);
       });
     return () => {
       cancelled = true;
@@ -45,7 +51,7 @@ export default function ProjectsSection() {
           className="hero-heading mb-16 text-center font-black uppercase leading-none tracking-tight sm:mb-20 md:mb-28"
           style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
         >
-          Project
+          Projects
         </h2>
       </FadeIn>
 
@@ -136,6 +142,33 @@ function ProjectCard({ project, index, progress, range, targetScale }: ProjectCa
               >
                 {project.description}
               </p>
+              {(project.problem || project.approach || project.result) && (
+                <dl className="mt-2 grid max-w-xl gap-x-4 gap-y-1 text-[#D7E2EA]/70 sm:grid-cols-[auto_1fr]" style={{ fontSize: 'clamp(0.75rem, 1vw, 0.9rem)' }}>
+                  {(
+                    [
+                      ['Problem', project.problem],
+                      ['Approach', project.approach],
+                      ['Result', project.result],
+                    ] as const
+                  )
+                    .filter(([, value]) => value)
+                    .map(([term, value]) => (
+                      <div key={term} className="contents">
+                        <dt className="font-medium uppercase tracking-wider text-[#D7E2EA]">{term}</dt>
+                        <dd className="font-light">{value}</dd>
+                      </div>
+                    ))}
+                </dl>
+              )}
+              {project.stack && project.stack.length > 0 && (
+                <ul className="mt-2 flex flex-wrap gap-1.5" aria-label={`${project.name} technology stack`}>
+                  {project.stack.map((tech) => (
+                    <li key={tech} className="rounded-full border border-[#D7E2EA]/30 px-3 py-0.5 text-[11px] font-light uppercase tracking-wider text-[#D7E2EA]">
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
           {project.live_url && <LiveProjectButton href={project.live_url} projectName={project.name} />}

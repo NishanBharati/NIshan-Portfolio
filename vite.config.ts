@@ -1,5 +1,7 @@
+import { existsSync } from 'node:fs';
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig, loadEnv, type Connect, type Plugin, type UserConfig } from 'vite';
+
 import react from '@vitejs/plugin-react';
 
 /**
@@ -21,59 +23,6 @@ const adminSpaFallback = (): Plugin => ({
   },
   configurePreviewServer(server) {
     server.middlewares.use(adminFallback);
-  },
-});
-
-/** Canonical origin; keep in sync with PROFILE.siteUrl, index.html and public/robots.txt. */
-const SITE_URL = 'https://nishanbharati.com.np';
-
-/**
- * Writes sitemap.xml at build time: the static pages plus every published blog post, read
- * through Supabase's public REST API with the anon key (RLS only exposes published posts).
- * If Supabase isn't configured or reachable, the static pages are still listed.
- */
-const sitemap = (mode: string): Plugin => ({
-  name: 'sitemap',
-  apply: 'build',
-  async generateBundle() {
-    const today = new Date().toISOString().slice(0, 10);
-    const entries: { loc: string; lastmod: string; priority: string }[] = [
-      { loc: '/', lastmod: today, priority: '1.0' },
-      { loc: '/blog', lastmod: today, priority: '0.8' },
-    ];
-
-    const env = loadEnv(mode, process.cwd(), 'VITE_');
-    const url = env.VITE_SUPABASE_URL;
-    const key = env.VITE_SUPABASE_ANON_KEY;
-    if (url && key) {
-      try {
-        const headers: Record<string, string> = { apikey: key };
-        if (key.startsWith('eyJ')) headers.Authorization = `Bearer ${key}`;
-        const res = await fetch(
-          `${url}/rest/v1/posts?select=slug,updated_at&status=eq.published&order=published_at.desc`,
-          { headers },
-        );
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const posts = (await res.json()) as { slug: string; updated_at: string }[];
-        for (const post of posts) {
-          entries.push({ loc: `/blog/${encodeURIComponent(post.slug)}`, lastmod: post.updated_at.slice(0, 10), priority: '0.6' });
-        }
-      } catch (error) {
-        this.warn(`sitemap: could not load blog posts from Supabase (${String(error)}); listing static pages only`);
-      }
-    }
-
-    const body = entries
-      .map(
-        (e) =>
-          `  <url>\n    <loc>${SITE_URL}${e.loc}</loc>\n    <lastmod>${e.lastmod}</lastmod>\n    <priority>${e.priority}</priority>\n  </url>`,
-      )
-      .join('\n');
-    this.emitFile({
-      type: 'asset',
-      fileName: 'sitemap.xml',
-      source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`,
-    });
   },
 });
 
@@ -99,15 +48,28 @@ function assertPublicSupabaseKey(mode: string) {
   }
 }
 
-const config = (mode: string): UserConfig => ({
-  plugins: [react(), adminSpaFallback(), sitemap(mode)],
+/**
+ * Client build: index.html + admin/index.html. SSR build (`vite build --ssr src/entry-server.tsx`):
+ * a Node bundle used only at build time by scripts/prerender.mjs, which also writes sitemap.xml,
+ * robots.txt and llms.txt from src/config/site.ts (the single canonical-origin constant).
+ */
+const config = (isSsrBuild: boolean): UserConfig => ({
+  plugins: [react(), adminSpaFallback()],
+  define: {
+    // CV links render only once the PDF is actually in public/, so the site never links to a 404.
+    __CV_AVAILABLE__: JSON.stringify(existsSync(fileURLToPath(new URL('./public/Nishan-Bharati-CV.pdf', import.meta.url)))),
+  },
   build: {
     rollupOptions: {
-      input: {
-        main: fileURLToPath(new URL('./index.html', import.meta.url)),
-        admin: fileURLToPath(new URL('./admin/index.html', import.meta.url)),
-      },
-      output: {
+      input: isSsrBuild
+        ? undefined
+        : {
+            main: fileURLToPath(new URL('./index.html', import.meta.url)),
+            admin: fileURLToPath(new URL('./admin/index.html', import.meta.url)),
+          },
+      output: isSsrBuild
+        ? undefined
+        : {
         // Long-lived vendor chunks; the Markdown stack only loads on article pages and in the admin.
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined;
@@ -128,7 +90,7 @@ const config = (mode: string): UserConfig => ({
   },
 });
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, isSsrBuild }) => {
   assertPublicSupabaseKey(mode);
-  return config(mode);
+  return config(Boolean(isSsrBuild));
 });

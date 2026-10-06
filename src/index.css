@@ -25,6 +25,49 @@ body,
   }
 }
 
+/*
+ * Above-the-fold entrance (hero). Pure CSS so it starts as soon as the prerendered HTML paints,
+ * without waiting for JavaScript; this keeps LCP fast. Same curve and distances as <FadeIn>.
+ */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--fade-y, 30px));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.css-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
+/*
+ * The hero heading is the page's LCP element. Browsers don't record LCP for content that starts at
+ * opacity 0, so it rises into view through its overflow-hidden wrapper (a mask reveal) instead of fading.
+ */
+@keyframes rise {
+  from {
+    transform: translateY(var(--fade-y, 40px));
+  }
+  to {
+    transform: none;
+  }
+}
+
+.css-rise {
+  animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .css-fade-up,
+  .css-rise {
+    animation: none;
+  }
+}
+
 /* Ensure anchor scroll targets land cleanly below the fixed floating navbar */
 [id] {
   scroll-margin-top: 96px;

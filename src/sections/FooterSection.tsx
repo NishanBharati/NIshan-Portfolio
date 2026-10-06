@@ -67,15 +67,17 @@ export default function FooterSection({ overlap = false }: { overlap?: boolean }
               </a>
             </li>
             <li className="font-light text-[#D7E2EA]/60">{PROFILE.location}</li>
-            <li>
-              <a
-                href={PROFILE.cvHref}
-                download={`${PROFILE.fullName.replace(/\s+/g, '-')}-CV.pdf`}
-                className="inline-flex items-center gap-2 font-light text-[#D7E2EA] underline decoration-[#B600A8] underline-offset-4 transition-opacity hover:opacity-70"
-              >
-                Download CV <span className="sr-only">(PDF)</span>
-              </a>
-            </li>
+            {PROFILE.cvHref && (
+              <li>
+                <a
+                  href={PROFILE.cvHref}
+                  download={`${PROFILE.fullName.replace(/\s+/g, '-')}-CV.pdf`}
+                  className="inline-flex items-center gap-2 font-light text-[#D7E2EA] underline decoration-[#B600A8] underline-offset-4 transition-opacity hover:opacity-70"
+                >
+                  Download CV <span className="sr-only">(PDF)</span>
+                </a>
+              </li>
+            )}
             <li className="pt-3">
               <SiteLink
                 href="/#contact"

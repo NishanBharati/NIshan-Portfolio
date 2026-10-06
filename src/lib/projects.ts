@@ -25,8 +25,21 @@ export type Project = {
   updated_at: string;
 };
 
+/**
+ * Optional case-study fields (problem -> approach -> stack -> result). Rendered on the card and in the
+ * JSON-LD only when present. Use verified facts only; never estimated or invented results.
+ * TODO: confirm with Nishan: add matching columns to the Supabase `projects` table
+ * (stack text[], problem text, approach text, result text) and include them in fetchPublishedProjects.
+ */
+export type CaseStudy = {
+  stack?: string[];
+  problem?: string;
+  approach?: string;
+  result?: string;
+};
+
 /** What a showcase card needs, whether it comes from Supabase or the built-in fallback. */
-export type ShowcaseProject = Pick<Project, 'name' | 'category' | 'description' | 'live_url' | 'images'> & { key: string };
+export type ShowcaseProject = Pick<Project, 'name' | 'category' | 'description' | 'live_url' | 'images'> & CaseStudy & { key: string };
 
 export const EMPTY_IMAGE: ProjectImage = { src: '', alt: '', position: 'center' };
 

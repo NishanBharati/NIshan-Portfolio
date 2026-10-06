@@ -1,2 +1,6 @@
-/admin/*  /admin/index.html  200
-/*        /index.html        200
+# Netlify. Static files (index.html, blog.html, blog/<slug>.html) are served first, with pretty URLs.
+/admin      /admin/index.html  200
+/admin/*    /admin/index.html  200
+# Posts published after the last build: client-rendered shell until the next deploy prerenders them.
+/blog/*     /_spa.html         200
+# Anything else falls through to 404.html with a real 404 status.

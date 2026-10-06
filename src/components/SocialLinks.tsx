@@ -18,7 +18,7 @@ export default function SocialLinks({ className = '' }: { className?: string }) 
             <a
               href={href}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="me noopener noreferrer"
               aria-label={`${PROFILE.fullName} on ${label} (opens in a new tab)`}
               title={label}
               className="group flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#D7E2EA]/30 text-[#D7E2EA] transition-colors duration-200 hover:border-[#D7E2EA] hover:bg-[#D7E2EA]/10 sm:h-14 sm:w-14"
