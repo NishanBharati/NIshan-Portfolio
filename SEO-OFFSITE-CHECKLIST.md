@@ -16,7 +16,7 @@ Work top to bottom. Each item has copy-paste text. Character counts are shown wh
 | **Full Stack Developer** | Fullstack dev, Full-Stack Engineer, MERN guy (in titles) |
 | **Co-Founder, Navya EdTech** (or "co-founder of Navya EdTech") | NavyaEdTech, Navya Edtech, Navya Ed Tech, Navya Tech |
 | **Kathmandu, Nepal** | Nepal only, KTM, Kathmandu Valley (in bios) |
-| Website: **https://nishanbharati.com.np** | other URLs as your "main" site |
+| Website: **https://nishanbharati123.com.np** | other URLs as your "main" site |
 
 - Use **the same profile photo** everywhere (the portrait on the site). Search engines and AI models use it to match profiles to one person.
 - Always pair your name with **"Navya EdTech"** or **"Full Stack Developer, Kathmandu"**. That combination is what separates you from other people named Nishan Bharati.
@@ -44,7 +44,7 @@ Nishan Bharati is a Full Stack Developer based in Kathmandu, Nepal, and the co-f
 ```
 I'm Nishan Bharati, a Full Stack Developer based in Kathmandu, Nepal, and the co-founder of Navya EdTech, an IT and software development company. I lead engineering there and build custom web applications, e-commerce stores and CMS platforms end to end, from database schema and APIs to the finished interface, with React, Next.js, TypeScript, Node.js, Express, Laravel, MongoDB and PostgreSQL.
 
-Portfolio and articles: https://nishanbharati.com.np
+Portfolio and articles: https://nishanbharati123.com.np
 ```
 
 ---
@@ -58,7 +58,7 @@ Portfolio and articles: https://nishanbharati.com.np
   ```
 - [ ] **Location:** Kathmandu, Bagmati, Nepal
 - [ ] **About:** paste the *first-person bio*.
-- [ ] **Contact info → Website:** `https://nishanbharati.com.np` (type: Portfolio). Add `https://navyaedtech.com/` as Company.
+- [ ] **Contact info → Website:** `https://nishanbharati123.com.np` (type: Portfolio). Add `https://navyaedtech.com/` as Company.
 - [ ] **Experience**, matching the site's wording exactly:
   - *Co-Founder & Lead Full Stack Developer*, **Navya EdTech** (link the Navya EdTech company page if it exists), Full-time
   - *Full Stack Developer Intern*, **Clickpoint Innovations**, Internship
@@ -74,7 +74,7 @@ Portfolio and articles: https://nishanbharati.com.np
   ```
   Full Stack Developer · Co-Founder of Navya EdTech · Kathmandu, Nepal
   ```
-- [ ] **Company:** Navya EdTech  **Location:** Kathmandu, Nepal  **Website:** `https://nishanbharati.com.np`
+- [ ] **Company:** Navya EdTech  **Location:** Kathmandu, Nepal  **Website:** `https://nishanbharati123.com.np`
 - [ ] **Profile README** (create a repo named `NishanBharati` containing `README.md`):
   ```markdown
   # Hi, I'm Nishan Bharati 👋
@@ -83,7 +83,7 @@ Portfolio and articles: https://nishanbharati.com.np
   I build custom web applications, e-commerce stores and CMS platforms end to end.
 
   - 🧰 React · Next.js · TypeScript · Node.js · Express · Laravel · MongoDB · PostgreSQL
-  - 🌐 Portfolio & articles: [nishanbharati.com.np](https://nishanbharati.com.np)
+  - 🌐 Portfolio & articles: [nishanbharati123.com.np](https://nishanbharati123.com.np)
   - 📫 nishanbharati12345@gmail.com
   ```
 - [ ] Pin repositories that match the projects on the site (if they're public).
@@ -94,14 +94,14 @@ Portfolio and articles: https://nishanbharati.com.np
   ```
   Full Stack Developer · Co-Founder @ Navya EdTech · Kathmandu, Nepal
   ```
-- [ ] **Link:** `https://nishanbharati.com.np`
+- [ ] **Link:** `https://nishanbharati123.com.np`
 
 ### Facebook: https://www.facebook.com/nisan.bharati
 - [ ] **Intro** (≤101 chars):
   ```
   Full Stack Developer & Co-Founder of Navya EdTech · Kathmandu, Nepal
   ```
-- [ ] **Work:** Co-Founder & Lead Full Stack Developer at Navya EdTech. **Website:** `https://nishanbharati.com.np`
+- [ ] **Work:** Co-Founder & Lead Full Stack Developer at Navya EdTech. **Website:** `https://nishanbharati123.com.np`
 - [ ] Optional: if a username with the correct spelling is free (e.g. `facebook.com/nishanbharati`), switch to it and update `SOCIAL_LINKS`. The site currently lists "Nisan Bharati" as an alternate spelling because of the current handle; remove it from `src/lib/seo.ts` if you don't use that spelling.
 
 ---
@@ -110,7 +110,7 @@ Portfolio and articles: https://nishanbharati.com.np
 
 - [ ] On the **About / Team** page, add a card:
   > **Nishan Bharati**: Co-Founder & Lead Full Stack Developer
-  > link to `https://nishanbharati.com.np` with the anchor text **"Nishan Bharati"** (not "click here")
+  > link to `https://nishanbharati123.com.np` with the anchor text **"Nishan Bharati"** (not "click here")
 - [ ] In the footer or "Founders" line: `Co-founded by Nishan Bharati`, linked the same way.
 - [ ] Add this JSON-LD to navyaedtech.com's `<head>`. It points back to the same Person `@id` your site defines, so search engines merge both into one entity:
   ```html
@@ -125,9 +125,9 @@ Portfolio and articles: https://nishanbharati.com.np
     "logo": "https://navyaedtech.com/PATH-TO-LOGO.png",
     "founder": {
       "@type": "Person",
-      "@id": "https://nishanbharati.com.np/#person",
+      "@id": "https://nishanbharati123.com.np/#person",
       "name": "Nishan Bharati",
-      "url": "https://nishanbharati.com.np/",
+      "url": "https://nishanbharati123.com.np/",
       "jobTitle": "Full Stack Developer"
     }
   }
@@ -148,17 +148,17 @@ Suggested footer text:
 ```
 Website by Nishan Bharati · Navya EdTech
 ```
-Link "Nishan Bharati" to `https://nishanbharati.com.np` and "Navya EdTech" to `https://navyaedtech.com/`.
+Link "Nishan Bharati" to `https://nishanbharati123.com.np` and "Navya EdTech" to `https://navyaedtech.com/`.
 
 ---
 
 ## 5. Launch-day technical steps (after deploying)
 
-- [ ] **Domain:** confirm `nishanbharati.com.np` in `src/config/site.ts`. Redirect `www.` and `http://` to `https://nishanbharati.com.np` (one hop).
+- [ ] **Domain:** confirm `nishanbharati123.com.np` in `src/config/site.ts`. Redirect `www.` and `http://` to `https://nishanbharati123.com.np` (one hop).
 - [ ] **Host:** keep `vercel.json` *or* `public/_redirects` + `public/_headers`, and delete the other.
 - [ ] **Environment variables** on the host: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
 - [ ] **Deploy hook:** create one (Vercel → Settings → Git → Deploy Hooks, or Netlify → Build hooks) and trigger it **every time you publish a blog post**, so the post gets its own prerendered page, metadata and sitemap entry.
-- [ ] **Google Search Console** (https://search.google.com/search-console): add a *Domain* property (DNS TXT record) → Sitemaps → submit `https://nishanbharati.com.np/sitemap.xml` → URL Inspection on `/` and `/blog` → *Request indexing*.
+- [ ] **Google Search Console** (https://search.google.com/search-console): add a *Domain* property (DNS TXT record) → Sitemaps → submit `https://nishanbharati123.com.np/sitemap.xml` → URL Inspection on `/` and `/blog` → *Request indexing*.
 - [ ] **Bing Webmaster Tools** (https://www.bing.com/webmasters): *Import from Google Search Console*. Bing's index also feeds ChatGPT search and Copilot.
 - [ ] **Validate structured data:** run `/`, `/blog` and one article through
   - Google Rich Results Test: https://search.google.com/test/rich-results
@@ -176,7 +176,7 @@ Link "Nishan Bharati" to `https://nishanbharati.com.np` and "Navya EdTech" to `h
 
 AI assistants cite what *other* sites say about you. Aim for a few genuine, linkable mentions:
 - [ ] **Cross-post articles** on Dev.to, Hashnode or Medium with the **canonical URL set to your own post** (each platform has a "canonical URL" setting), plus the short bio and a link at the end.
-- [ ] **Talks, meetups, podcasts, college events** in Kathmandu. Ask organisers to link to `https://nishanbharati.com.np` and use the short bio.
+- [ ] **Talks, meetups, podcasts, college events** in Kathmandu. Ask organisers to link to `https://nishanbharati123.com.np` and use the short bio.
 - [ ] **Interviews or features** about Navya EdTech in Nepali tech media.
 - [ ] Every real mention: add it to `MENTIONS` in `src/data/content.ts`. It then appears in an "In the press" section and in the `subjectOf` structured data. **Real, linkable mentions only.**
 - [ ] Don't buy links or directory listings, and don't create a Wikipedia/Wikidata entry until independent sources exist (it gets deleted and can hurt trust).

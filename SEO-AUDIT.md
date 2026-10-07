@@ -14,7 +14,7 @@ Decisions confirmed by Nishan (2026-10-06): company **Navya EdTech**, title **Fu
 | Data | Supabase: blog posts and projects are fetched **in the browser at runtime** (`src/lib/posts.ts`, `src/lib/projects.ts`); the projects section falls back to `FALLBACK_PROJECTS` |
 | Hosting config | **Both** `vercel.json` and `public/_redirects` (Netlify) exist. Each one rewrites every path to `/index.html`. Which host is used isn't clear. |
 | Rendering | **Client-side SPA only.** No SSR, SSG or prerendering. |
-| Domain | Not deployed. `https://nishanbharati.com.np` is hard-coded in **4 places**: `src/data/content.ts` (`PROFILE.siteUrl`), `vite.config.ts` (`SITE_URL`), `index.html` (canonical, OG, JSON-LD), `public/robots.txt` |
+| Domain | Not deployed. `https://nishanbharati123.com.np` is hard-coded in **4 places**: `src/data/content.ts` (`PROFILE.siteUrl`), `vite.config.ts` (`SITE_URL`), `index.html` (canonical, OG, JSON-LD), `public/robots.txt` |
 | Git | **Not a git repository**, so the `seo-geo-aeo` branch can't be created until it's initialised. |
 
 ## 2. Rendering check (critical)
@@ -228,7 +228,7 @@ Generated at build: `index.html`, `blog.html`, `blog/<slug>.html`, `404.html`, `
 ### 8.6 Remaining risks and TODOs (honest list)
 
 **Needs Nishan (TODO: confirm with Nishan)**
-1. **Domain.** `https://nishanbharati.com.np` is a placeholder in `src/config/site.ts`. Confirm it before launch, and redirect `www` and `http` to `https://nishanbharati.com.np` at the DNS/host level. Also update the URL printed on `og-image.jpg` if it changes.
+1. **Domain.** `https://nishanbharati123.com.np` is a placeholder in `src/config/site.ts`. Confirm it before launch, and redirect `www` and `http` to `https://nishanbharati123.com.np` at the DNS/host level. Also update the URL printed on `og-image.jpg` if it changes.
 2. **CV PDF.** Add `public/Nishan-Bharati-CV.pdf`; the CV buttons then appear automatically.
 3. **Experience and education dates.** Add `period` values in `content.ts`. Dated facts are much more quotable for AI answers.
 4. **Project case studies.** Fill `stack`, `problem`, `approach` and `result` (verified results only). For Supabase-managed projects, add those columns and select them in `fetchPublishedProjects` and the prerender query.
