@@ -35,7 +35,7 @@ const metaContent = (html, key, by = 'name') => {
 const allFiles = await walk(dist);
 const rel = (f) => path.relative(dist, f).split(path.sep).join('/');
 const fileSet = new Set(allFiles.map(rel));
-const pages = allFiles.filter((f) => f.endsWith('.html') && !rel(f).startsWith('admin/') && rel(f) !== '_spa.html');
+const pages = allFiles.filter((f) => f.endsWith('.html') && !rel(f).startsWith('admin/') && rel(f) !== '_spa.html' && !/^google[0-9a-f]+\.html$/.test(rel(f)));
 
 const robotsTxt = await fs.readFile(path.join(dist, 'robots.txt'), 'utf8').catch(() => '');
 const siteUrl = robotsTxt.match(/^Sitemap:\s*(https?:\/\/[^/\s]+)/m)?.[1];
